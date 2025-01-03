@@ -1,25 +1,69 @@
-/* In your styles.css or <style> tag */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+/* General page styles */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
 }
 
+/* Header Styles */
 header {
     background-color: #333;
     color: white;
-    padding: 10px 0;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
     margin: 0;
+    font-size: 2.5em;
 }
 
+/* Game Container Styles */
 #game-container {
-    margin-top: 20px;  /* Adds space between the header and the game */
-    width: 100%;
-    max-width: 800px;  /* Adjust this based on your game's width */
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 800px; /* Adjust width of the game container */
+}
+
+/* Canvas Styles */
+#game-container canvas {
+    border: 2px solid #333;
+    display: block;
+    margin: 0 auto;  /* Centers the canvas within the container */
+    background-color: #fff;  /* Optional: background for canvas */
+}
+
+/* Button Styling */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    #game-container {
+        width: 100%;
+    }
 }
