@@ -1,0 +1,25 @@
+/* In your styles.css or <style> tag */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+#game-container {
+    margin-top: 20px;  /* Adds space between the header and the game */
+    width: 100%;
+    max-width: 800px;  /* Adjust this based on your game's width */
+    margin-left: auto;
+    margin-right: auto;
+}
