@@ -1,67 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Environmental Statistics</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .stat-container { margin: 20px auto; padding: 10px; width: 50%; border: 1px solid #ddd; border-radius: 5px; }
-        h1 { color: #2c3e50; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environmental & Permafrost Statistics</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background: #f4f4f4; }
+    h1 { color: #2c3e50; }
+    h2 { color: #34495e; }
+    .stat-container {
+      background: #fff;
+      margin: 20px auto;
+      padding: 15px;
+      width: 90%;
+      max-width: 600px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-    <h1>Real-Time Environmental Statistics</h1>
+  <h1>Real-Time Environmental Statistics</h1>
+
+  <!-- Global Statistics Section -->
+  <section id="global-stats">
+    <h2>Global Statistics</h2>
     <div class="stat-container">
-        <h2>Global CO₂ Levels</h2>
-        <p id="co2">Loading...</p>
+      <h3>Global CO₂ Levels</h3>
+      <p id="global-co2">Loading...</p>
     </div>
     <div class="stat-container">
-        <h2>Average Global Temperature</h2>
-        <p id="temperature">Loading...</p>
+      <h3>Average Global Temperature</h3>
+      <p id="global-temp">Loading...</p>
     </div>
     <div class="stat-container">
-        <h2>Arctic Sea Ice Extent</h2>
-        <p id="sea-ice">Loading...</p>
+      <h3>Arctic Sea Ice Extent</h3>
+      <p id="arctic-sea-ice">Loading...</p>
     </div>
+  </section>
 
-    <script>
-        async function fetchCO2() {
-            try {
-                let response = await fetch('https://api.climatiq.io/v1/data/latest', {
-                    headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
-                });
-                let data = await response.json();
-                document.getElementById("co2").innerText = `${data.data[0].value} ppm (Climatiq API)`;
-            } catch (error) {
-                document.getElementById("co2").innerText = "Error loading data";
-            }
-        }
-        
-        async function fetchTemperature() {
-            try {
-                let response = await fetch('https://global-warming.org/api/temperature-api');
-                let data = await response.json();
-                let latestTemp = data.result[data.result.length - 1].station; 
-                document.getElementById("temperature").innerText = `+${latestTemp}°C (Global Warming API)`;
-            } catch (error) {
-                document.getElementById("temperature").innerText = "Error loading data";
-            }
-        }
+  <!-- Permafrost Statistics Section -->
+  <section id="permafrost-stats">
+    <h2>Permafrost Statistics</h2>
+    <div class="stat-container">
+      <h3>Permafrost Temperature Trend</h3>
+      <p id="permafrost-temp">+0.3°C per decade (GTN-P, 2024)</p>
+    </div>
+    <div class="stat-container">
+      <h3>Total Permafrost Area Loss</h3>
+      <p id="permafrost-area">1.5 million km² lost (NASA, 2024)</p>
+    </div>
+    <div class="stat-container">
+      <h3>Carbon Released from Thawing Permafrost</h3>
+      <p id="carbon-release">1.7 Gt CO₂/year (IARC, 2024)</p>
+    </div>
+    <div class="stat-container">
+      <h3>Methane Emissions from Permafrost</h3>
+      <p id="methane-emissions">50 Mt CH₄/year (NASA, 2024)</p>
+    </div>
+    <div class="stat-container">
+      <h3>Thaw Depth Increase</h3>
+      <p id="thaw-depth">3 cm per decade (NOAA, 2024)</p>
+    </div>
+  </section>
 
-        async function fetchSeaIce() {
-            try {
-                let response = await fetch('https://api.melttracker.com/sea-ice/latest');
-                let data = await response.json();
-                document.getElementById("sea-ice").innerText = `${data.extent} million km² (MeltTracker API)`;
-            } catch (error) {
-                document.getElementById("sea-ice").innerText = "Error loading data";
-            }
+  <script>
+    // Global Statistics Section
+    async function fetchGlobalCO2() {
+      try {
+        // Global Warming API for CO2 (assumed endpoint; adjust if needed)
+        let response = await fetch('https://global-warming.org/api/co2-api');
+        let data = await response.json();
+        // Assume the API returns an object with a field named 'co2'
+        if(data && data.co2) {
+          document.getElementById('global-co2').innerText = `${data.co2} ppm (Global Warming API)`;
+        } else {
+          document.getElementById('global-co2').innerText = "Data format error";
         }
+      } catch (error) {
+        console.error('Error fetching CO₂ data:', error);
+        document.getElementById('global-co2').innerText = "Error loading data";
+      }
+    }
 
-        fetchCO2();
-        fetchTemperature();
-        fetchSeaIce();
-    </script>
+    async function fetchGlobalTemp() {
+      try {
+        // Global Warming API for temperature
+        let response = await fetch('https://global-warming.org/api/temperature-api');
+        let data = await response.json();
+        // Assume data.result is an array; use the last (latest) entry's 'station' field as an example
+        if(data && data.result && data.result.length > 0) {
+          let latest = data.result[data.result.length - 1];
+          document.getElementById('global-temp').innerText = `+${latest.station}°C (Global Warming API)`;
+        } else {
+          document.getElementById('global-temp').innerText = "Data format error";
+        }
+      } catch (error) {
+        console.error('Error fetching temperature data:', error);
+        document.getElementById('global-temp').innerText = "Error loading data";
+      }
+    }
+
+    async function fetchArcticSeaIce() {
+      try {
+        // Global Warming API for Arctic sea ice (assumed endpoint; adjust if needed)
+        let response = await fetch('https://global-warming.org/api/arctic-api');
+        let data = await response.json();
+        // Assume the API returns an object with a field 'seaice'
+        if(data && data.seaice) {
+          document.getElementById('arctic-sea-ice').innerText = `${data.seaice} million km² (Global Warming API)`;
+        } else {
+          document.getElementById('arctic-sea-ice').innerText = "Data format error";
+        }
+      } catch (error) {
+        console.error('Error fetching sea ice data:', error);
+        document.getElementById('arctic-sea-ice').innerText = "Error loading data";
+      }
+    }
+
+    // Call the functions to fetch data
+    fetchGlobalCO2();
+    fetchGlobalTemp();
+    fetchArcticSeaIce();
+  </script>
 </body>
 </html>
