@@ -41,22 +41,6 @@ h1 {
     background-color: #fff;  /* Optional: background for canvas */
 }
 
-/* Button Styling */
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.2em;
-    margin-top: 20px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
 /* Responsive Design */
 @media (max-width: 600px) {
     header h1 {
