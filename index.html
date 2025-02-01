@@ -28,9 +28,11 @@
     <script>
         async function fetchCO2() {
             try {
-                let response = await fetch('https://gml.noaa.gov/webdata/ccgg/trends/co2_trend.json');
+                let response = await fetch('https://api.climatiq.io/v1/data/latest', {
+                    headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+                });
                 let data = await response.json();
-                document.getElementById("co2").innerText = `${data.co2[0]} ppm (NOAA, latest)`;
+                document.getElementById("co2").innerText = `${data.data[0].value} ppm (Climatiq API)`;
             } catch (error) {
                 document.getElementById("co2").innerText = "Error loading data";
             }
@@ -38,11 +40,10 @@
         
         async function fetchTemperature() {
             try {
-                let response = await fetch('https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv');
-                let text = await response.text();
-                let rows = text.split("\n");
-                let lastRow = rows[rows.length - 2].split(",");
-                document.getElementById("temperature").innerText = `+${lastRow[1]}°C above pre-industrial levels (NASA, latest)`;
+                let response = await fetch('https://global-warming.org/api/temperature-api');
+                let data = await response.json();
+                let latestTemp = data.result[data.result.length - 1].station; 
+                document.getElementById("temperature").innerText = `+${latestTemp}°C (Global Warming API)`;
             } catch (error) {
                 document.getElementById("temperature").innerText = "Error loading data";
             }
@@ -50,11 +51,9 @@
 
         async function fetchSeaIce() {
             try {
-                let response = await fetch('https://nsidc.org/arcticseaicenews/api/monthly.csv');
-                let text = await response.text();
-                let rows = text.split("\n");
-                let lastRow = rows[rows.length - 2].split(",");
-                document.getElementById("sea-ice").innerText = `${lastRow[1]} million km² (NSIDC, latest)`;
+                let response = await fetch('https://api.melttracker.com/sea-ice/latest');
+                let data = await response.json();
+                document.getElementById("sea-ice").innerText = `${data.extent} million km² (MeltTracker API)`;
             } catch (error) {
                 document.getElementById("sea-ice").innerText = "Error loading data";
             }
