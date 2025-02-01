@@ -26,10 +26,43 @@
     </div>
 
     <script>
-        // Placeholder data (we will replace with API calls later)
-        document.getElementById("co2").innerText = "420.5 ppm (NASA, 2024)";
-        document.getElementById("temperature").innerText = "+1.2°C above pre-industrial levels";
-        document.getElementById("sea-ice").innerText = "4.2 million km² (NSIDC, 2024)";
+        async function fetchCO2() {
+            try {
+                let response = await fetch('https://gml.noaa.gov/webdata/ccgg/trends/co2_trend.json');
+                let data = await response.json();
+                document.getElementById("co2").innerText = `${data.co2[0]} ppm (NOAA, latest)`;
+            } catch (error) {
+                document.getElementById("co2").innerText = "Error loading data";
+            }
+        }
+        
+        async function fetchTemperature() {
+            try {
+                let response = await fetch('https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv');
+                let text = await response.text();
+                let rows = text.split("\n");
+                let lastRow = rows[rows.length - 2].split(",");
+                document.getElementById("temperature").innerText = `+${lastRow[1]}°C above pre-industrial levels (NASA, latest)`;
+            } catch (error) {
+                document.getElementById("temperature").innerText = "Error loading data";
+            }
+        }
+
+        async function fetchSeaIce() {
+            try {
+                let response = await fetch('https://nsidc.org/arcticseaicenews/api/monthly.csv');
+                let text = await response.text();
+                let rows = text.split("\n");
+                let lastRow = rows[rows.length - 2].split(",");
+                document.getElementById("sea-ice").innerText = `${lastRow[1]} million km² (NSIDC, latest)`;
+            } catch (error) {
+                document.getElementById("sea-ice").innerText = "Error loading data";
+            }
+        }
+
+        fetchCO2();
+        fetchTemperature();
+        fetchSeaIce();
     </script>
 </body>
 </html>
