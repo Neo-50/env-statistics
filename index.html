@@ -120,11 +120,22 @@
         let response = await fetch('https://global-warming.org/api/arctic-api');
         let data = await response.json();
         console.log('Arctic Sea Ice API data:', data);
-        // Now using data.arcticData instead of data.arctic.
-        if (data && data.arcticData && data.arcticData.extent) {
-          document.getElementById('arctic-sea-ice').innerText = `${data.arcticData.extent} million km² (Global Warming API)`;
+        
+        if (data && data.arcticData) {
+          // Log the keys in arcticData to see what properties are available
+          console.log("Keys in arcticData:", Object.keys(data.arcticData));
+          console.log("arcticData contents:", data.arcticData);
+    
+          // Check for the expected property
+          if (data.arcticData.extent) {
+            document.getElementById('arctic-sea-ice').innerText =
+              `${data.arcticData.extent} million km² (Global Warming API)`;
+          } else {
+            document.getElementById('arctic-sea-ice').innerText =
+              "Data format error: 'extent' property missing";
+          }
         } else {
-          document.getElementById('arctic-sea-ice').innerText = "Data format error";
+          document.getElementById('arctic-sea-ice').innerText = "Data format error: 'arcticData' missing";
         }
       } catch (error) {
         console.error('Error fetching sea ice data:', error);
