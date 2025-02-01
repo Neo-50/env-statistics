@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Checkers Game</title>
+    <title>Environmental Statistics</title>
     <style>
-        /* Add some basic styling here */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        canvas {
-            border: 2px solid black;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .stat-container { margin: 20px auto; padding: 10px; width: 50%; border: 1px solid #ddd; border-radius: 5px; }
+        h1 { color: #2c3e50; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Permafrost Statistics</h1>
-    </header>
-    
+    <h1>Real-Time Environmental Statistics</h1>
+    <div class="stat-container">
+        <h2>Global CO₂ Levels</h2>
+        <p id="co2">Loading...</p>
+    </div>
+    <div class="stat-container">
+        <h2>Average Global Temperature</h2>
+        <p id="temperature">Loading...</p>
+    </div>
+    <div class="stat-container">
+        <h2>Arctic Sea Ice Extent</h2>
+        <p id="sea-ice">Loading...</p>
+    </div>
+
+    <script>
+        // Placeholder data (we will replace with API calls later)
+        document.getElementById("co2").innerText = "420.5 ppm (NASA, 2024)";
+        document.getElementById("temperature").innerText = "+1.2°C above pre-industrial levels";
+        document.getElementById("sea-ice").innerText = "4.2 million km² (NSIDC, 2024)";
+    </script>
 </body>
 </html>
