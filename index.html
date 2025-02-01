@@ -124,14 +124,19 @@
           dateKeys.sort();
           // Get the latest date key.
           let latestDateKey = dateKeys[dateKeys.length - 1];
-          // Get the corresponding value. Adjust this if the value is an object.
+          // Get the corresponding value.
           let latestValue = seaIceData[latestDateKey];
           console.log("Latest Date Key:", latestDateKey, "Latest Value:", latestValue);
+          
+          // If the value is an object, extract the 'value' property.
+          let extentValue = (typeof latestValue === 'object' && latestValue.value !== undefined)
+                            ? latestValue.value
+                            : latestValue;
           
           // Get the units from the description.
           let units = data.arcticData.description.units || "unknown units";
           document.getElementById('arctic-sea-ice').innerText =
-            `${latestValue} ${units} (Global Warming API)`;
+            `${extentValue} ${units} (Global Warming API)`;
         } else {
           document.getElementById('arctic-sea-ice').innerText =
             "Data format error: 'arcticData.data' missing";
