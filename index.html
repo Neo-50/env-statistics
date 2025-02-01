@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Environmental & Permafrost Statistics</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background: #f4f4f4; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      background: #f4f4f4;
+    }
     h1 { color: #2c3e50; }
     h2 { color: #34495e; }
     .stat-container {
@@ -67,14 +73,20 @@
 
   <script>
     // Global Statistics Section
+
+    // Updated Global CO₂ Levels: Expecting an array of objects.
     async function fetchGlobalCO2() {
       try {
-        // Global Warming API for CO2 (assumed endpoint; adjust if needed)
         let response = await fetch('https://global-warming.org/api/co2-api');
         let data = await response.json();
-        // Assume the API returns an object with a field named 'co2'
-        if(data && data.co2) {
-          document.getElementById('global-co2').innerText = `${data.co2} ppm (Global Warming API)`;
+        // Debug: log the data structure
+        console.log('CO₂ API data:', data);
+
+        // If data.co2 is an array, get the latest measurement.
+        if (data && data.co2 && Array.isArray(data.co2) && data.co2.length > 0) {
+          let latest = data.co2[data.co2.length - 1];
+          // Change "value" to "ppm" if the API uses that property.
+          document.getElementById('global-co2').innerText = `${latest.value} ppm (Global Warming API)`;
         } else {
           document.getElementById('global-co2').innerText = "Data format error";
         }
@@ -89,8 +101,9 @@
         // Global Warming API for temperature
         let response = await fetch('https://global-warming.org/api/temperature-api');
         let data = await response.json();
-        // Assume data.result is an array; use the last (latest) entry's 'station' field as an example
-        if(data && data.result && data.result.length > 0) {
+        console.log('Temperature API data:', data);
+        // Assuming data.result is an array and using the last entry
+        if (data && data.result && data.result.length > 0) {
           let latest = data.result[data.result.length - 1];
           document.getElementById('global-temp').innerText = `+${latest.station}°C (Global Warming API)`;
         } else {
@@ -102,14 +115,16 @@
       }
     }
 
+    // Updated Arctic Sea Ice Extent: Adjusted to use an assumed array property.
     async function fetchArcticSeaIce() {
       try {
-        // Global Warming API for Arctic sea ice (assumed endpoint; adjust if needed)
         let response = await fetch('https://global-warming.org/api/arctic-api');
         let data = await response.json();
-        // Assume the API returns an object with a field 'seaice'
-        if(data && data.seaice) {
-          document.getElementById('arctic-sea-ice').innerText = `${data.seaice} million km² (Global Warming API)`;
+        console.log('Arctic Sea Ice API data:', data);
+        // Assuming the API returns an object with an array property named "arctic"
+        if (data && data.arctic && Array.isArray(data.arctic) && data.arctic.length > 0) {
+          let latest = data.arctic[data.arctic.length - 1];
+          document.getElementById('arctic-sea-ice').innerText = `${latest.extent} million km² (Global Warming API)`;
         } else {
           document.getElementById('arctic-sea-ice').innerText = "Data format error";
         }
